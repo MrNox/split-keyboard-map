@@ -3,6 +3,13 @@
 #include <keymap_spanish.h>
 #include "keymap_latam.h"
 
+
+#define MOUSEKEY_MAX_SPEED 5
+#define MOUSEKEY_DELAY 10
+#define MOUSEKEY_INTERVAL 16
+#define MOUSEKEY_TIME_TO_MAX 60
+#define MOUSEKEY_MOVE_DELTA 1
+
 enum unicode_names {
   ACCNT,
   RQTN,
@@ -37,10 +44,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |LShift|   A  |   S  |   D  |   F  |   G  |-------.    ,-------|   H  |   J  |   K  |   L  |   Ñ  |  ~   |
  * |      |   a  |   s  |   d  |   f  |   g  |       |    |       |   h  |   h  |   k  |   l  |   ñ  |      |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |  Z   |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |  ;   |   :  |   >  |LCTRL |
+ * |LCTRL |  Z   |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |  ;   |   :  |   >  |ALTGR |
  * |      |  z   |   x  |   c  |   v  |   b  |       |    |       |      |      |  ,   |   .  |   <  | - _  |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   |      | LGUI |NUMPAD| /Enter  /       \Back  \  |Space |  @   |      |
+ *                   |      | LGUI |NUMPAD| /Enter  /       \Back  \  |Space | DEL  |      |
  *                   |      |      |  /   |/NAVIGAT/         \Space \ |SYMBOL|      |      | 
  *                   `----------------------------'           '------''--------------------'
  */
@@ -48,8 +55,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX,           KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,
   LALT_T(KC_ESC),    KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    LA_ACUT,
   KC_LSFT,           KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L,    ES_NTIL, LA_TILD,
-  KC_LCTL,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, XXXXXXX,      XXXXXXX,   KC_N,    KC_M,    KC_COMM, KC_DOT,  ES_LABK, LCA_T(LA_MINS),
-        XXXXXXX, KC_LGUI, LT(_NUMPAD, KC_PSLS), LT(_NAVIGATE, KC_ENT),      KC_BSPC, LT(_SYMBOLS, KC_SPC), LA_AT, XXXXXXX
+  LCTL_T(LA_BSLS),   KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, XXXXXXX,      XXXXXXX,   KC_N,    KC_M,    KC_COMM, KC_DOT,  ES_LABK, ALGR_T(LA_MINS),
+        XXXXXXX, KC_LGUI, LT(_NUMPAD, KC_PSLS), LT(_NAVIGATE, KC_ENT),       LT(_SYMBOLS, KC_SPC), KC_BSPC, KC_DEL, XXXXXXX
 ),
 
 
@@ -57,13 +64,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  |      |  F1  |  F2  |  F3  |  F4  |                    |  *   |   1  |  2   |  3   |  +   |  .   |
+ * | Esc  |      |  F1  |  F2  |  F3  |  F4  |                    |  *   |   7  |  8   |  9   |  +   |  -   |
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShfit|LCtrl |  F5  |  F6  |  F7  |  F8  |-------.    ,-------|   /  |   4  |  5   |  6   |  -   |RShift|
+ * |LShfit|LCtrl |  F5  |  F6  |  F7  |  F8  |-------.    ,-------|   /  |   4  |  5   |  6   |LALT  |RShift|
  * |      |      |      |      |      |      |       |    |       |      |      |      |      |      |      |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |      |  F9  |  F10 | F11  | F12  |-------|    |-------|  %   |   7  |  8   |  9   |  0   |  =   |
+ * |LCTRL |      |  F9  |  F10 | F11  | F12  |-------|    |-------|  %   |   1  |  2   |  3   |  0   |  =   |
  * |      |      |      |      |      |      |       |    |       |      |      |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   |      | LGUI |NUMPAD| /Enter  /       \Back  \  |Space |  @   |      |
@@ -72,9 +79,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_NUMPAD]= LAYOUT(
   _______, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX,
-  _______, XXXXXXX,   KC_F1,   KC_F2, KC_F3,    KC_F4,                   LA_ASTR,    KC_1,    KC_2, KC_3,  LA_PLUS,  KC_DOT,
-  _______, KC_LCTRL,  KC_F5,   KC_F4, KC_F5,    KC_F6,                   KC_PSLS,    KC_4,    KC_5, KC_6,  LA_MINS,  KC_RSFT,
-  _______, XXXXXXX,   KC_F9,   KC_F10,KC_F11,  KC_F12, _______, _______,KC_PERCENT,  KC_7,    KC_8, KC_9,  KC_0,     LA_EQL,
+  _______, XXXXXXX,   KC_F1,   KC_F2, KC_F3,    KC_F4,                   LA_ASTR,    KC_7,    KC_8, KC_9,  LA_PLUS,  LA_MINS,
+  _______, KC_LCTRL,  KC_F5,   KC_F4, KC_F5,    KC_F6,                   KC_PSLS,    KC_4,    KC_5, KC_6,  KC_LALT,  KC_RSFT,
+  _______, XXXXXXX,   KC_F9,   KC_F10,KC_F11,  KC_F12, _______, _______,KC_PERCENT,  KC_1,    KC_2, KC_3,  KC_0,     LA_EQL,
                              _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 
@@ -109,14 +116,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  |      |      |      |      |      |                    |Volum |      |  Up  |      |Brillo|      |
- * | LALT |      |      |      |      |      |                    |Up    |      |      |      |Up    |      |
+ * | Esc  |      |Right |Mouse |Left  |Wheel |                    |      |      |  Up  |      |Brillo|      |
+ * | LALT |      |Click |  Up  |Click | Up   |                    |      |      |      |      |Up    |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShift| RTAB | CTAB	| TAB  |LALT  |      |-------.    ,-------|Volum | Left | Down |Right |Brillo|      |
- * |      |      |      |      |      |      |       |    |       |Down  |      |      |      |Down  |      |
+ * |LShift| LALT |Mouse	|Mouse |Mouse |Wheel |-------.    ,-------|      | Left | Down |Right |Brillo|      |
+ * |      |      |Left  | Down | Right| Down |       |    |       |      |      |      |      |Down  |      |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |LCTRL |LCTRL |LCTRL |LCTRL |Print |-------|    |-------|Play  |Previo|Next  |Stop  |      |      |
- * |      |LShift|LShift|LShift|LShift|Screen|       |    |       |Pause |Track |Track |Track |      |      |
+ * |LCTRL |LCTRL |LCTRL |LCTRL |LCTRL |Print |-------|    |-------|  TAB | LTAB |  TAB |      |      | Ins  |
+ * |      |LShift|LShift|LShift|LShift|Screen|       |    |       |      |      |      |      |      |      |
  * |      |z     |x     |c     |v     |      |       |    |       |      |      |      |      |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   |      | LGUI |NUMPAD| /Enter  /       \Back  \  |Space |  @   |      |
@@ -124,11 +131,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                   `----------------------------'           '------''--------------------'
  */
   [_NAVIGATE] = LAYOUT(
-  _______, _______,      _______,   _______,     _______,    _______,                    _______, _______, _______, _______, _______, _______,
-  _______, XXXXXXX,      XXXXXXX,   XXXXXXX,     XXXXXXX,    XXXXXXX,                    KC_VOLU, XXXXXXX,   KC_UP, XXXXXXX, KC_BRIU, XXXXXXX,
-  _______, C(S(KC_TAB)), C(KC_TAB), KC_TAB ,     KC_LALT,    XXXXXXX,                    KC_VOLD, KC_LEFT, KC_DOWN, KC_RGHT, KC_BRID, XXXXXXX,
-  _______, C(S(KC_Z)),   C(S(KC_X)), C(S(KC_C)), C(S(KC_V)), KC_PSCR, XXXXXXX,  XXXXXXX, KC_MPLY, KC_MPRV, KC_MNXT, KC_MSTP, XXXXXXX, XXXXXXX,
-                                  _______, _______, _______, _______, _______,   _______, _______, _______
+  _______, _______,      _______,   _______,     _______,    _______,                    _______,     _______,   _______, _______, _______, _______,
+  _______, XXXXXXX,      KC_BTN1,   KC_MS_U,     KC_BTN2,    KC_WH_U,                    KC_VOLU,     XXXXXXX,   KC_UP,   XXXXXXX, KC_BRIU, XXXXXXX,
+  _______, KC_LALT,      KC_MS_L,   KC_MS_D,     KC_MS_R,    KC_WH_D,                    KC_VOLD,     KC_LEFT,   KC_DOWN, KC_RGHT, KC_BRID, XXXXXXX,
+  _______, C(S(KC_Z)),   C(S(KC_X)), C(S(KC_C)), C(S(KC_V)), KC_PSCR, _______, _______,  KC_TAB, C(S(KC_TAB)), C(KC_TAB), XXXXXXX, XXXXXXX, KC_INS,  
+                                  _______, _______, _______, _______,      _______,   _______, _______, _______
   ),
 
 
