@@ -6,6 +6,8 @@
 #define LA_0    KC_0          // 0
 #define LA_1    KC_1          // 1
 #define LA_2    KC_2          // 2
+#define LA_3    KC_3          // 3
+#define LA_4    KC_4          // 4
 
 #define LA_TILD ALGR(KC_RBRC) // ~
 #define LA_AT   ALGR(KC_Q)    // @
@@ -28,10 +30,10 @@
 #define LA_IEXL S(LA_IQUE)    // ¡
 #define LA_EXLM S(KC_1)       // !
 
-#define LA_HASH S(KC_3)       // #
+#define LA_HASH S(LA_3)       // #
 #define LA_GRV  ALGR(KC_BSLS) // `
 #define LA_PIPE KC_GRV        // |
 #define LA_AMPR S(KC_6)       // &
 #define LA_BSLS ALGR(LA_QUOT) // (backslash)
 #define LA_CIRC ALGR(LA_LBRK) // ^
-
+#define LA_DLR  S(LA_4)       // $
