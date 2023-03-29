@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define EE_HANDS
 
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 180
+#define TAPPING_TERM 130
 
 #undef RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
@@ -45,5 +45,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_SLEEP
 */
 
-#define LSPO_MOD KC_LSFT
-#define LSPO_KEY KC_2
+
+#define LSPO_KEYS KC_LSFT, KC_LSFT, KC_2
+
