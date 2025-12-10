@@ -9,6 +9,6 @@ sudo apt-get install \ # probably just with gcc-avr and avr-libc it's enough
   dfu-programmer dfu-util avrdude
 ln -s $(pwd)/split-keyboard-map/lily58-noxmap/ $(pwd)/qmk_firmware/keyboards/lily58/keymaps/noxmap/
 cd qmk_firmware/
-qmk compile -kb lily58/rev1 -km noxma'p
+qmk compile -kb lily58/rev1 -km noxmap
 qmk flash -kb lily58/rev1 -km noxmap -bl dfu 
 ```
