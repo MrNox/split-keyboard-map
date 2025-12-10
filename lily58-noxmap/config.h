@@ -26,8 +26,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define TAPPING_FORCE_HOLD
+
 #define TAPPING_TERM 145
+#define QUICK_TAP_TERM 0
+#define TAPPING_TERM_PER_KEY
+
+
+#define MOUSEKEY_DELAY 10
+#define MOUSEKEY_INTERVAL 16
+#define MOUSEKEY_MAX_SPEED 8
+#define MOUSEKEY_TIME_TO_MAX 40
+#define MOUSEKEY_MOVE_DELTA 8
+
 
 #undef RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
@@ -44,7 +54,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_ANIMATIONS
 #define RGBLIGHT_SLEEP
 */
-
-
-#define LSPO_KEYS KC_LSFT, KC_LSFT, KC_2
 

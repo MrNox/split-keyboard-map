@@ -1,153 +1,83 @@
 #include QMK_KEYBOARD_H
 
-#include <keymap_spanish.h>
-#include "keymap_latam.h"
+#include <keymap_extras/keymap_spanish_latin_america.h>
+//#include "keymap_latam.h"
 
-#define MOUSEKEY_MAX_SPEED 5
-#define MOUSEKEY_DELAY 10
-#define MOUSEKEY_INTERVAL 16
-#define MOUSEKEY_TIME_TO_MAX 60
-#define MOUSEKEY_MOVE_DELTA 1
-
-enum unicode_names {
-  ACCNT,
-  RQTN,
-  enye,
-  ENYE
-};
-
-const uint32_t PROGMEM unicode_map[] = {
- [ACCNT] = 0x00b4,
- [RQTN] = 0x2e2e,
- [enye] = 0x00f1,
- [ENYE] = 0x00d1,
-};
 
 enum layer_number {
-  _QWERTY = 0,
+  _QWERTY_WIN = 0,  // win/linux
   _SYMBOLS,
   _NUMPAD,
-  _NAVIGATE,
+  _NAVIGATE_WIN,
+  _QWERTY_MAC,      //macOS
+  _NAVIGATE_MAC,
   _ADJUST,
   _ADJUST2,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* QWERTY
- * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | ESC  |   Q  |   W  |   E  |   R  |   T  |                    |   Y  |   U  |   I  |   O  |   P  |  ¨   |
- * | LALT |   q  |   w  |   e  |      |   t  |                    |      |      |      |      |      |  ´   |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShift|   A  |   S  |   D  |   F  |   G  |-------.    ,-------|   H  |   J  |   K  |   L  |   Ñ  |  ~   |
- * |      |   a  |   s  |   d  |   f  |   g  |       |    |       |   h  |   h  |   k  |   l  |   ñ  |      |
- * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |  Z   |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |  ;   |   :  |   >  |ALTGR |
- * |      |  z   |   x  |   c  |   v  |   b  |       |    |       |      |      |  ,   |   .  |   <  | - _  |
- * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   |      | LGUI |NUMPAD| /Enter  /       \Space \  |Back  | DEL  |      |
- *                   |      |      |  /   |/NAVIGAT/         \SYMBOL\ |Space |      |      | 
- *                   `----------------------------'           '------''--------------------'
- */
- [_QWERTY] = LAYOUT(
-  XXXXXXX,           KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,
-  LALT_T(KC_ESC),    KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    LA_ACUT,
-  SC_LSPO,           KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L,    ES_NTIL, LA_TILD,
-  LCTL_T(LA_BSLS),   KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, XXXXXXX,      XXXXXXX,   KC_N,    KC_M,    KC_COMM, KC_DOT,  ES_LABK, ALGR_T(LA_MINS),
-        XXXXXXX, KC_LGUI, LT(_NUMPAD, KC_PSLS), LT(_NAVIGATE, KC_ENT),       LT(_SYMBOLS, KC_SPC), KC_BSPC, KC_DEL, XXXXXXX
+[_QWERTY_WIN] = LAYOUT(
+  KC_ESC,           KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,
+  LALT_T(KC_ESC),   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                                        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    ES_ACUT,
+  SC_LSPO,          KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                                        KC_H,    KC_J,    KC_K,    KC_L,    ES_NTIL, ES_TILD,
+  LCTL_T(ES_BSLS),  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, DF(_QWERTY_WIN),    DF(_QWERTY_MAC),   KC_N,    KC_M,    KC_COMM, KC_DOT,  ES_LABK, ALGR_T(ES_MINS),
+        XXXXXXX, KC_LGUI, LT(_NUMPAD, KC_PSLS), LT(_NAVIGATE_WIN, KC_ENT),       LT(_SYMBOLS, KC_SPC), KC_BSPC, KC_DEL, XXXXXXX
 ),
 
+[_QWERTY_MAC] = LAYOUT(
+  KC_ESC,           KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,
+  LALT_T(KC_ESC),    KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    ES_ACUT,
+  SC_LSPO,           KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                          KC_H,    KC_J,    KC_K,    KC_L,    ES_NTIL, ES_TILD,
+  LCTL_T(ES_BSLS),   KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, DF(_QWERTY_WIN),   DF(_QWERTY_MAC),  KC_N,    KC_M,    KC_COMM, KC_DOT,  ES_LABK, ALGR_T(ES_MINS),
+        XXXXXXX, KC_LGUI, LT(_NUMPAD, KC_PSLS), LT(_NAVIGATE_MAC, KC_ENT),       LT(_SYMBOLS, KC_SPC), KC_BSPC, KC_DEL, XXXXXXX
+),
 
-/* NUMPAD
- * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  |      |  F1  |  F2  |  F3  |  F4  |                    |  *   |   7  |  8   |  9   |  +   |  -   |
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShfit|LCtrl |  F5  |  F6  |  F7  |  F8  |-------.    ,-------|   /  |   4  |  5   |  6   |LALT  |RShift|
- * |      |      |      |      |      |      |       |    |       |      |      |      |      |      |      |
- * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |      |  F9  |  F10 | F11  | F12  |-------|    |-------|  %   |   1  |  2   |  3   |  0   |  =   |
- * |      |      |      |      |      |      |       |    |       |      |      |      |      |      |      |
- * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   |      | LGUI |NUMPAD| /Enter  /       \Space \  |Back  | DEL  |      |
- *                   |      |      |  /   |/NAVIGAT/         \SYMBOL\ |Space |      |      | 
- *                   `----------------------------'           '------''--------------------'
- */
 [_NUMPAD]= LAYOUT(
   _______, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX,
-  _______, XXXXXXX,   KC_F1,   KC_F2, KC_F3,    KC_F4,                   LA_ASTR,    KC_7,    KC_8, KC_9,  LA_PLUS,  LA_MINS,
+  _______, XXXXXXX,   KC_F1,   KC_F2, KC_F3,    KC_F4,                   ES_ASTR,    KC_7,    KC_8, KC_9,  ES_PLUS,  ES_MINS,
   _______, KC_LCTL,   KC_F5,   KC_F6, KC_F7,    KC_F8,                   KC_PSLS,    KC_4,    KC_5, KC_6,  KC_LALT,  KC_RSFT,
-  _______, XXXXXXX,   KC_F9,   KC_F10,KC_F11,  KC_F12, _______, _______,KC_PERCENT,  KC_1,    KC_2, KC_3,  KC_0,     LA_EQL,
+  _______, XXXXXXX,   KC_F9,   KC_F10,KC_F11,  KC_F12, _______, _______,KC_PERCENT,  KC_1,    KC_2, KC_3,  KC_0,     ES_EQL,
                              _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 
-
-/* SYMBOLS
- * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  |   (  |   )  |   ¿  |   ?  |  $   |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShift|   [  |   ]  |   !  |   ¡  |  ^   |-------.    ,-------|  `   |      |      |      |LALT  |RSHIFT|
- * |      |      |      |      |      |      |       |    |       |      |      |      |      |      |      |
- * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |   {  |   }  |  |   |   &  |  #   |-------|    |-------|      |      |      |      |      |      |
- * |      |      |      |      |      |      |       |    |       |      |      |      |      |      |      |
- * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   |      | LGUI |NUMPAD| /Enter  /       \Space \  |Back  | DEL  |      |
- *                   |      |      |  /   |/NAVIGAT/         \SYMBOL\ |Space |      |      | 
- *                   `----------------------------'           '------''--------------------'
- */
-
 [_SYMBOLS] = LAYOUT(
   _______, _______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
-  _______, ES_LPRN, ES_RPRN, LA_IQUE, LA_QUES, LA_CIRC,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  _______, LA_LCBR, LA_RCBR, LA_IEXL, LA_EXLM, LA_DLR,                      LA_GRV,  XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT, KC_RSFT,
-  _______, LA_LBRK, LA_RBRK, LA_PIPE, LA_AMPR, LA_HASH, _______, _______,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  _______, ES_LPRN, ES_RPRN, ES_IQUE, ES_QUES, ES_CIRC,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  _______, ES_LBRC, ES_LBRC, ES_IEXL, ES_EXLM, ES_DLR,                      ES_GRV,  XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT, KC_RSFT,
+  _______, ES_LCBR, ES_RCBR, ES_PIPE, ES_AMPR, ES_NUMB, _______, _______,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                              _______, _______, _______,  _______, _______,  _______, _______, _______
 ),
 
-
-/* NAVIGATE
- * ,-----------------------------------------.                    ,-----------------------------------------.
- * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  |Wheel |Wheel |Mouse |LShift|Wheel |                    |Print |Left  |      |Right |Brillo|      |
- * | LALT |Left  |Right |  Up  | F10  | Up   |                    |Screen|Click |      |Click |Up    |      |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShift| LALT |Mouse	|Mouse |Mouse |Wheel |-------.    ,-------| Left | Down |  Up  |Right |Brillo|      |
- * |      |      |Left  | Down | Right| Down |       |    |       |      |      |      |      |Down  |      |
- * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
- * |LCTRL |LCTRL |LCTRL |LCTRL |LCTRL |      |-------|    |-------|  TAB | LTAB |  TAB |      |      | Ins  |
- * |      |LShift|LShift|LShift|LShift| LGUI |       |    |       |      |      |      |      |      |      |
- * |      |z     |x     |c     |v     |      |       |    |       |      |      |      |      |      |      |
- * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   |      | LGUI |NUMPAD| /Enter  /       \Space \  |Back  | DEL  |      |
- *                   |      |      |  /   |/NAVIGAT/         \SYMBOL\ |Space |      |      | 
- *                   `----------------------------'           '------''--------------------'
- */
-  [_NAVIGATE] = LAYOUT(
+[_NAVIGATE_WIN] = LAYOUT(
   _______, _______,      _______,   _______,     _______,    _______,                    _______,     _______,   _______, _______, _______, _______,
-  _______, KC_WH_L,      KC_WH_R,   KC_MS_U,     S(KC_F10),  KC_WH_U,                    KC_PSCR,     KC_BTN1,   XXXXXXX, KC_BTN2, KC_BRIU, XXXXXXX,
-  _______, KC_LALT,      KC_MS_L,   KC_MS_D,     KC_MS_R,    KC_WH_D,                    KC_LEFT,     KC_DOWN,   KC_UP,   KC_RGHT, KC_BRID, XXXXXXX,
-  _______, C(S(KC_Z)),   C(S(KC_X)), C(S(KC_C)), C(S(KC_V)), KC_LGUI, _______, _______,  KC_TAB, C(S(KC_TAB)), C(KC_TAB), XXXXXXX, XXXXXXX, KC_INS,  
+  _______, MS_WHLL,      MS_WHLR,     MS_UP,     S(KC_F10),  MS_WHLU,                    KC_PSCR,     MS_BTN1,   XXXXXXX, MS_BTN2, KC_BRIU, XXXXXXX,
+  _______, KC_LALT,      MS_LEFT,   MS_DOWN,     MS_RGHT,    MS_WHLD,                    KC_LEFT,     KC_DOWN,   KC_UP,   KC_RGHT, KC_BRID, XXXXXXX,
+  _______, C(S(KC_Z)),   C(S(KC_X)), C(S(KC_C)), C(S(KC_V)), KC_LGUI, _______, _______,  KC_TAB, C(S(KC_TAB)), C(KC_TAB), XXXXXXX, XXXXXXX, KC_INS,
                                   _______, _______, _______, _______,      _______,   _______, _______, _______
   ),
 
+/* NAVIGATE_MAC  (solo cambia los atajos de edición a Cmd+Shift+Z/X/C/V)
+ *  - OJO: mantenemos Ctrl+Tab / Ctrl+Shift+Tab porque en macOS
+ *    los navegadores también usan esas combinaciones para pestañas.
+ */
+  [_NAVIGATE_MAC] = LAYOUT(
+  _______, _______,      _______,   _______,     _______,    _______,                    _______,     _______,   _______, _______, _______, _______,
+  _______, MS_WHLL,      MS_WHLR,     MS_UP,     S(KC_F10),  MS_WHLU,                    KC_PSCR,     MS_BTN1,   XXXXXXX, MS_BTN2, KC_BRIU, XXXXXXX,
+  _______, KC_LALT,      MS_LEFT,   MS_DOWN,     MS_RGHT,    MS_WHLD,                    KC_LEFT,     KC_DOWN,   KC_UP,   KC_RGHT, KC_BRID, XXXXXXX,
+  _______, LGUI(S(KC_Z)), LGUI(S(KC_X)), LGUI(S(KC_C)), LGUI(S(KC_V)), KC_LGUI, _______, _______, KC_TAB, C(S(KC_TAB)), C(KC_TAB), XXXXXXX, XXXXXXX, KC_INS,
+                                  _______, _______, _______, _______,      _______,   _______, _______, _______
+  ),
 
-  [_ADJUST] = LAYOUT( \
+[_ADJUST] = LAYOUT(
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, DF(_QWERTY_WIN), DF(_QWERTY_MAC), XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                _______, _______, _______, _______, _______,  _______, _______, _______
   ),
 
- [_ADJUST2] = LAYOUT( \
+[_ADJUST2] = LAYOUT(
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -155,39 +85,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                _______, _______, _______, _______, _______,  _______, _______, _______
   )
 
-
 };
 
-//SSD1306 OLED update loop, make sure to enable OLED_ENABLE=yes in rules.mk
+
+// OLED (igual que tu original)
 #ifdef OLED_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master())
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+    return OLED_ROTATION_180;
   return rotation;
 }
 
-// When you add source files to SRC in rules.mk, you can use functions.
 const char *read_layer_state(void);
 const char *read_logo(void);
 void set_keylog(uint16_t keycode, keyrecord_t *record);
 const char *read_keylog(void);
 const char *read_keylogs(void);
 
-// const char *read_mode_icon(bool swap);
-// const char *read_host_led_state(void);
-// void set_timelog(void);
-// const char *read_timelog(void);
-
 bool oled_task_user(void) {
   if (is_keyboard_master()) {
-    // If you want to change the display of OLED, you need to change here
     oled_write_ln(read_layer_state(), false);
     oled_write_ln(read_keylog(), false);
     oled_write_ln(read_keylogs(), false);
-    //oled_write_ln(read_mode_icon(keymap_config.swap_lalt_lgui), false);
-    //oled_write_ln(read_host_led_state(), false);
-    //oled_write_ln(read_timelog(), false);
   } else {
     oled_write(read_logo(), false);
   }
@@ -204,3 +124,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
