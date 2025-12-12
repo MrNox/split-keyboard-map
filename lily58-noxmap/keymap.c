@@ -6,11 +6,11 @@
 
 enum layer_number {
   _QWERTY_WIN = 0,  // win/linux
-  _SYMBOLS,
-  _NUMPAD,
   _NAVIGATE_WIN,
   _QWERTY_MAC,      //macOS
   _NAVIGATE_MAC,
+  _SYMBOLS,
+  _NUMPAD,
   _ADJUST,
   _ADJUST2,
 };
@@ -57,15 +57,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   _______, _______, _______, _______,      _______,   _______, _______, _______
   ),
 
-/* NAVIGATE_MAC  (solo cambia los atajos de edición a Cmd+Shift+Z/X/C/V)
- *  - OJO: mantenemos Ctrl+Tab / Ctrl+Shift+Tab porque en macOS
- *    los navegadores también usan esas combinaciones para pestañas.
+/* NAVIGATE_MAC
+ * scrolls invertidos para macos
+ * GUI+Z/X/C/V funciona desde y hacia la terminal
+ * Se reemplaza KC_LALT por KC_LGUI
  */
   [_NAVIGATE_MAC] = LAYOUT(
   _______, _______,      _______,   _______,     _______,    _______,                    _______,     _______,   _______, _______, _______, _______,
-  _______, MS_WHLL,      MS_WHLR,     MS_UP,     S(KC_F10),  MS_WHLU,                    KC_PSCR,     MS_BTN1,   XXXXXXX, MS_BTN2, KC_BRIU, XXXXXXX,
-  _______, KC_LALT,      MS_LEFT,   MS_DOWN,     MS_RGHT,    MS_WHLD,                    KC_LEFT,     KC_DOWN,   KC_UP,   KC_RGHT, KC_BRID, XXXXXXX,
-  _______, LGUI(S(KC_Z)), LGUI(S(KC_X)), LGUI(S(KC_C)), LGUI(S(KC_V)), KC_LGUI, _______, _______, KC_TAB, C(S(KC_TAB)), C(KC_TAB), XXXXXXX, XXXXXXX, KC_INS,
+  _______, MS_WHLL,      MS_WHLR,     MS_UP,     S(KC_F10),  MS_WHLD,                    KC_PSCR,     MS_BTN1,   XXXXXXX, MS_BTN2, KC_BRIU, XXXXXXX,
+  _______, KC_LGUI,      MS_LEFT,   MS_DOWN,     MS_RGHT,    MS_WHLU,                    KC_LEFT,     KC_DOWN,   KC_UP,   KC_RGHT, KC_BRID, XXXXXXX,
+  _______, LGUI(KC_Z), LGUI(KC_X), LGUI(KC_C), LGUI(KC_V),   KC_LGUI, _______, _______, KC_TAB, C(S(KC_TAB)), C(KC_TAB), XXXXXXX, XXXXXXX, KC_INS,
                                   _______, _______, _______, _______,      _______,   _______, _______, _______
   ),
 
